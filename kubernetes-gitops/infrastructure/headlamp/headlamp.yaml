@@ -31,8 +31,10 @@ spec:
       containers:
         - name: headlamp
           image: ghcr.io/headlamp-k8s/headlamp:latest
+          args:
+            - "-in-cluster"
           ports:
-            - containerPort: 3000
+            - containerPort: 4466
           resources:
             requests:
               cpu: "100m"
@@ -52,4 +54,4 @@ spec:
     app.kubernetes.io/name: headlamp
   ports:
     - port: 80
-      targetPort: 3000
+      targetPort: 4466
