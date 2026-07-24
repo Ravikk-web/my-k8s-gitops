@@ -15,3 +15,7 @@ infrastructure-iac/*.plan
 infrastructure-iac/*override.tf
 infrastructure-iac/*override.tf.json
 infrastructure-iac/terraform.tfvars
+infrastructure-iac/variables.tf
+# If terraform.tfvars was committed before this ignore rule was added,
+# remove it from the index so it will be ignored in future commits:
+#   git rm --cached infrastructure-iac/terraform.tfvars
