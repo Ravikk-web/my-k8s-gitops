@@ -1,14 +1,16 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: infrastructure-apps
+  name: root-app
   namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
     repoURL: 'https://github.com/Ravikk-web/my-k8s-gitops.git'
     targetRevision: HEAD
-    path: kubernetes-gitops/infrastructure/headlamp
+    path: kubernetes-gitops/bootstrap
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: argocd
