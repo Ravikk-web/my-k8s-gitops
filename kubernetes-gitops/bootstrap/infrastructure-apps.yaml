@@ -46,7 +46,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/YOUR_GITHUB_USERNAME/my-k8s-gitops.git'
+    repoURL: 'https://github.com/Ravikk-web/my-k8s-gitops.git'
     targetRevision: HEAD
     path: kubernetes-gitops/apps/test-app
   destination:
