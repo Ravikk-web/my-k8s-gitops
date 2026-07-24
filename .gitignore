@@ -1,0 +1,17 @@
+# Ignore Terraform files and directories in infrastructure-iac
+infrastructure-iac/*.tf
+infrastructure-iac/*.tfstate
+infrastructure-iac/*.tfstate.backup
+infrastructure-iac/*.tfvars
+infrastructure-iac/*.tfvars.json
+infrastructure-iac/.terraform/
+infrastructure-iac/.terraform.lock.hcl
+infrastructure-iac/crash.log
+
+# Ignore plan output
+infrastructure-iac/*.plan
+
+# Ignore override files
+infrastructure-iac/*override.tf
+infrastructure-iac/*override.tf.json
+infrastructure-iac/terraform.tfvars

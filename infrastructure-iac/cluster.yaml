@@ -2,33 +2,36 @@ kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
   - role: control-plane
-    kubeadmConfigPatches:
-      - |
-        kind: InitConfiguration
-        nodeRegistration:
-          name: master-node
+  
   - role: worker
     labels:
-      node-role.kubernetes.io/worker: ""
+      tier: "worker"
+      
+  - role: worker
+    labels:
+      tier: "infra"
+    # Taints must be passed through kubeadm configurations
     kubeadmConfigPatches:
       - |
         kind: JoinConfiguration
         nodeRegistration:
-          name: worker-node-1
-  - role: worker
-    labels:
-      node-role.kubernetes.io/infra: ""
-    kubeadmConfigPatches:
-      - |
-        kind: JoinConfiguration
-        nodeRegistration:
-          name: infra-node-1
           taints:
-            - key: "node-role.kubernetes.io/infra"
+            - key: "infra-node"
               value: "reserved"
               effect: "NoSchedule"
-    # Port 30080 exposed to Windows host
-    extraPortMappings:
-      - containerPort: 30080
-        hostPort: 30080
-        protocol: TCP
+
+#after creating the cluster, you can label and taint the nodes using kubectl commands.
+# # Add the worker role label to the first worker
+# kubectl label node rkd01-worker node-role.kubernetes.io/worker=""
+
+# # Add the infra role label to the second worker
+# kubectl label node rkd01-worker2 node-role.kubernetes.io/infra=""
+
+# # 1. View all raw taints on rkd01-worker2 without findstr truncation
+# kubectl get node rkd01-worker2 -o jsonpath='{.spec.taints}'
+
+# # 2. Remove all custom taints from rkd01-worker2
+# kubectl taint nodes rkd01-worker2 node-role.kubernetes.io/infra- infra-node-
+
+# # 3. Apply a single, standard taint
+# kubectl taint nodes rkd01-worker2 node-role.kubernetes.io/infra=reserved:NoSchedule --overwrite
