@@ -1,4 +1,4 @@
-apiVersion: apps/v1
+apiVersion: apps/v2
 kind: Deployment
 metadata:
   name: webernetes-app
@@ -20,7 +20,7 @@ spec:
         node-role.kubernetes.io/worker: ""
       containers:
         - name: webernetes
-          image: testravikk/webernetes-app:v1
+          image: testravikk/webernetes-app:v2
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
