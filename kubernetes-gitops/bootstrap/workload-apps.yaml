@@ -9,7 +9,9 @@ spec:
     # Update this exact line:
     repoURL: 'https://github.com/Ravikk-web/my-k8s-gitops.git'
     targetRevision: HEAD
-    path: kubernetes-gitops/apps/
+    path: kubernetes-gitops/apps
+    directory: 
+      recurse: true # <--- Forces Argo CD to read YAMLs in subfolders
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: argocd
