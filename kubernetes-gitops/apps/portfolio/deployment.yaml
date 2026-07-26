@@ -44,4 +44,4 @@ spec:
   ports:
     - port: 80
       targetPort: 8080
-      nodePort: 30080 # Exposes port 30080 mapped in your Kind cluster config
+      nodePort: 30085 # Exposes port 30085 mapped in your Kind cluster config
