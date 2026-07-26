@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: portfolio-deployment
+  name: portfolio-app
   namespace: app-portfolio
   labels:
     app: portfolio
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: portfolio
@@ -15,46 +15,28 @@ spec:
       labels:
         app: portfolio
     spec:
-    nodeSelector:
-      node-role.kubernetes.io/worker: ""
+      # Pinned to the general worker node
+      nodeSelector:
+        node-role.kubernetes.io/worker: ""
       containers:
-      - name: web
-        image: personal-portfolio:v1.0.0
-        imagePullPolicy: Never
-        ports:
-        - containerPort: 8080
-        resources:
-          requests:
-            cpu: "100m"
-            memory: "64Mi"
-          limits:
-            cpu: "250m"
-            memory: "128Mi"
-        securityContext:
-          allowPrivilegeEscalation: false
-          runAsNonRoot: true
-          capabilities:
-            drop: ["ALL"]
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 8080
-          initialDelaySeconds: 10
-          periodSeconds: 10
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 8080
-          initialDelaySeconds: 5
-          periodSeconds: 5
+        - name: portfolio
+          image: personal-portfolio:v1.0.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "250m"
+              memory: "256Mi"
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: portfolio-service
   namespace: app-portfolio
-  labels:
-    app: portfolio
 spec:
   type: NodePort
   selector:
@@ -62,4 +44,4 @@ spec:
   ports:
     - port: 80
       targetPort: 8080
-      nodePort: 30082
+      nodePort: 30080 # Exposes port 30080 mapped in your Kind cluster config
