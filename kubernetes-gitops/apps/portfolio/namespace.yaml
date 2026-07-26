@@ -1,8 +1,4 @@
----
-apiVersion: v1
+apiVersion: v1 
 kind: Namespace
 metadata:
   name: app-portfolio
-  labels:
-    environment: production
-    app: portfolio
